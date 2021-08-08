@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 // use cors
 app.use(cors());
- 
+
 // Testing database connection 
 try {
     await db.authenticate();
@@ -26,4 +26,7 @@ try {
 app.use(Router);
  
 // listen on port
-app.listen(5000, () => console.log('Server running at http://localhost:5000'));
+const PORT = process.env.PORT || 6000;
+app.listen(PORT, () => {
+console.log(`Server running at ${PORT}.`);
+});

@@ -10,11 +10,11 @@ export const getProducts = async (req, res) => {
         console.log(err);
     }
 }
- 
+
 // Get product berdasarkan id
 export const getProductById = async (req, res) => {
     try {
-        const product = await Product.findAll({
+        const product = await Product.findOne({
             where: {
                 id: req.params.id
             }
