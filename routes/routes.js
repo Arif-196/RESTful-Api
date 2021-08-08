@@ -11,13 +11,14 @@ import {
 
  import {
      createUser,  
-     loginUser, 
+     loginUser,
      getUser
 } from "../controllers/Users.js";
 
  import {
     addCart, 
-    getCart, 
+    getCart,
+    getProductByIdCart,
     deleteCart 
 } from "../controllers/cart.js";
  
@@ -36,15 +37,16 @@ router.put(`/products/:id`, updateProduct);
 router.delete(`/products/:id`, deleteProduct);
 
 //CREATE USER
-router.post(`/Users/registrasi-create`,createUser);
+router.post(`/users/sign-up`,createUser);
 //LOGIN USER
-router.post(`/Users/validasi-login`,loginUser);
+router.post(`/users/login`,loginUser);
 // GET USER
-router.get(`/get-Users`,getUser);
+router.get(`/get-users`,getUser);
 //CART 
-router.post(`/add-cart`, addCart);
+router.post(`/add-cart/:id`, addCart);
 router.get(`/get-cart`, getCart);
-router.delete(`/delete-cart`, deleteCart);
+router.get(`/get-product-by-id-cart`, getProductByIdCart);
+router.delete(`/delete-cart/:id`, deleteCart);
  
 // export router
 export default router;

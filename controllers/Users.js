@@ -1,6 +1,7 @@
 import User from "../models/Users.js"
 import bcrypt from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
+import db from "../config/database.js"
 
 export const createUser = async (req, res) => {
     const {username, password, email} = req.body
@@ -40,47 +41,63 @@ export const loginUser = async (req, res) => {
             "message" : "Password Incorrect"
         })
     }
-    const token = jsonwebtoken.sign(
+    const token = 'Bearer ' + jsonwebtoken.sign(
         {id:userData.id, username:userData.username, email:userData.email},
-        "SHSHSHS",
-        {expiresIn:"78000"}
+        "SHSHSHSHSHSHS"
     )
+
+    
     return res.json ({
         id: userData.id,
         username : userData.username,
         email: userData.email,
-        token 
+        accesToken:token
     })
 }
 
-// module.exports = authorize;
- 
-// const authorize = () => {
-//     return [
-//         // authenticate JWT token and attach decoded token to request as req.user
-//         jwt({ secret, algorithms: ['HS256'] }),
 
-//         // attach full user record to request object
-//         async (req, res, next) => {
-//             // get user with id from token 'sub' (subject) property
-//             const user = await db.User.findByPk(req.User.sub);
+    export const verifyToken = async (req, res, next) => {
+        const tokenHeader = req.headers['x-acces-token'];
 
-//             // check user still exists
-//             if (!userData)
-//                 return res.json({ message: 'Unauthorized' });
+        if(tokenHeader.split(' ')[0] !== 'Bearer'){
+            return res.json ({
+                "message" : "incorrect token!!"
+            })
+        }
 
-//             // authorization successful
-//             req.userData = userData.get();
-//             next();
-//         }
-//     ];
-// }
+        const token = tokenHeader.split(' ')[1];
+        if(!token){
+            return res.json ({
+                "message":"no token provided"
+            });
+        }
+        jsonwebtoken.verify(token, config.secret, (err, decoded)=>{
+            if(err) {
+                console.log(err);
+            }
+
+            req.id = decoded.id;
+            next();
+        })
+    }
+
 
 export const getUser = async (req, res) => {
-    try {
-        const Users = await User.findAll();
-        res.send(Users);
-    } catch (err) {
-        console.log(err);
+
+    const token = req.headers.authorization.split(" ")[1]
+    const user = jsonwebtoken.decode(token, 'SHSHSHSHSHSHS')
+    console.log(user); 
+    if(user) {
+        try {
+            const Users = await User.findAll();
+            res.send(Users);
+        } catch (err) {
+            console.log(err);
+        }
+    }else{
+        return res.json ({
+            "message" : "incorrect token!!"
+        })
     }
+    
 }

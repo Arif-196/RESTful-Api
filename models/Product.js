@@ -2,6 +2,7 @@
 import { Sequelize } from "sequelize";
 // import connection 
 import db from "../config/database.js";
+import Cart from './cart.js'
  
 // init DataTypes
 const { DataTypes } = Sequelize;
@@ -14,11 +15,27 @@ const Product = db.define('products', {
   },
   price: {
     type: DataTypes.DOUBLE
+  },
+  createdAt:{
+    type:DataTypes.DATE
+  },
+  updatedAt:{
+    type:DataTypes.DATE
   }
 },{
   // Freeze Table Name
-  freezeTableName: true
+  tableName: 'products'
 });
+Product.associate = (models) => {
+  Product.belongsTo(models.Product, {
+    foreignKey: {
+      name: 'user_id',
+      allowNull: false
+    },
+    as: 'Product'
+  });
+};
+Product.belongsTo(Cart)
  
 // Export model Product
 export default Product;

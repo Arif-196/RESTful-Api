@@ -19,7 +19,7 @@ export const getProductById = async (req, res) => {
                 id: req.params.id
             }
         });
-        res.send(product[0]);
+        res.send(product);
     } catch (err) {
         console.log(err);
     }
