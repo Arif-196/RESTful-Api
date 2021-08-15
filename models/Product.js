@@ -8,7 +8,7 @@ import Cart from './cart.js'
 const { DataTypes } = Sequelize;
  
 // Define schema
-const Product = db.define('products', {
+const Product = db.define('Products', {
   // Define attributes
   title: {
     type: DataTypes.STRING
@@ -21,21 +21,31 @@ const Product = db.define('products', {
   },
   updatedAt:{
     type:DataTypes.DATE
-  }
+  },
+  cart_id:{
+    type: DataTypes.NUMBER
+}
 },{
   // Freeze Table Name
-  tableName: 'products'
+  tableName: 'Products'
 });
 Product.associate = (models) => {
-  Product.belongsTo(models.Product, {
+  Product.belongsTo(models.User, {
     foreignKey: {
       name: 'user_id',
       allowNull: false
     },
-    as: 'Product'
+    as: 'products'
   });
 };
-Product.belongsTo(Cart)
+
+Product.associate = (models) => {
+  Product.belongsTo(models.Cart, {
+    foreignKey: "cart_id",
+    as: 'products'
+  });
+};
+
  
 // Export model Product
 export default Product;

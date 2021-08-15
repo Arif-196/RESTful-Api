@@ -1,11 +1,12 @@
 import { Sequelize } from "sequelize";
 
 import db from "../config/database.js";
-import Product from "./Product.js";
+// import Product from "./Product.js";
+// import User from "../models/Users.js"
 
 const { DataTypes } = Sequelize;
 
-const Cart = db.define('cart', {
+const Cart = db.define('Cart', {
     cart_id :{
         type: DataTypes.NUMBER,
         autoIncrement: true,
@@ -15,9 +16,7 @@ const Cart = db.define('cart', {
         type: DataTypes.NUMBER
 
     },
-    products_id:{
-        type: DataTypes.NUMBER
-    },
+  
 
     quantity :{ 
         type: DataTypes.NUMBER
@@ -35,16 +34,16 @@ const Cart = db.define('cart', {
         type:DataTypes.DATE
     }
 },{
-    tableName: 'cart',
+    tableName: 'Cart',
     
 });
 Cart.associate = (models) => {
-    Cart.belongsTo(models.User, {
+    Cart.belongsTo(models.User ,{
       foreignKey: {
         name: 'users_id',
         allowNull: false
       },
-      as: 'cart'
+      as: 'Cart'
     });
   };
 
@@ -52,10 +51,7 @@ Cart.associate = (models) => {
 Cart.associate = (models) => {
     console.log(models);
     Cart.hasMany(models.Product, {
-      foreignKey: {
-        name: 'products_id',
-        allowNull: false
-      },
+      foreignKey: "cart_id",
       as: 'Cart'
     });
   };

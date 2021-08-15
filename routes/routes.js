@@ -45,7 +45,7 @@ router.get(`/get-users`,getUser);
 //CART 
 router.post(`/add-cart/:id`, addCart);
 router.get(`/get-cart`, getCart);
-router.get(`/get-product-by-id-cart`, getProductByIdCart);
+router.get(`/get-cart/id`, getProductByIdCart);
 router.delete(`/delete-cart/:id`, deleteCart);
  
 // export router

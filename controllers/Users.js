@@ -56,30 +56,30 @@ export const loginUser = async (req, res) => {
 }
 
 
-    export const verifyToken = async (req, res, next) => {
-        const tokenHeader = req.headers['x-acces-token'];
+    // export const verifyToken = async (req, res, next) => {
+    //     const tokenHeader = req.headers['x-acces-token'];
 
-        if(tokenHeader.split(' ')[0] !== 'Bearer'){
-            return res.json ({
-                "message" : "incorrect token!!"
-            })
-        }
+    //     if(tokenHeader.split(' ')[0] !== 'Bearer'){
+    //         return res.json ({
+    //             "message" : "incorrect token!!"
+    //         })
+    //     }
 
-        const token = tokenHeader.split(' ')[1];
-        if(!token){
-            return res.json ({
-                "message":"no token provided"
-            });
-        }
-        jsonwebtoken.verify(token, config.secret, (err, decoded)=>{
-            if(err) {
-                console.log(err);
-            }
+    //     const token = tokenHeader.split(' ')[1];
+    //     if(!token){
+    //         return res.json ({
+    //             "message":"no token provided"
+    //         });
+    //     }
+    //     jsonwebtoken.verify(token, config.secret, (err, decoded)=>{
+    //         if(err) {
+    //             console.log(err);
+    //         }
 
-            req.id = decoded.id;
-            next();
-        })
-    }
+    //         req.id = decoded.id;
+    //         next();
+    //     })
+    // }
 
 
 export const getUser = async (req, res) => {

@@ -55,10 +55,44 @@ export const getCart = async (req, res) => {
 export const getProductByIdCart = async (req, res) => {
     const token = req.headers.authorization.split(" ")[1]
     const user = jsonwebtoken.decode(token, 'SHSHSHSHSHSHS')
-    const cart = await Cart.findAll();
+    console.log(token);
+    
+    
 
-    console.log(cart); 
+    // const cart = await Cart.findAll({
+    //     where:{
+    //         users_id:user.id
+    //     }
+    // });
+
+    // const product = await Product.findAll({
+    //     where:{
+    //         products_id:cart
+    //     }
+    // })
+
+//    const bangsat = async () => {
+//      const x = Promise.all([cart.map((res, index) => {
+//         const product = Product.findAll({
+//             where: {
+//                 id: res.products_id
+//             }
+//         })
+//         return product
+//     })]).
+//     then((res) => console.log(res))
+       
+//    } 
+
+//    bangsat()
+
     if(user) {
+        const cart = await Cart.findByPk(user.id, {include:[{
+            model: Product,
+            as: "products"
+        }]
+    })
+     console.log(cart);
         try {
             return res.send(cart);
         } catch (err) {
@@ -86,4 +120,5 @@ export const deleteCart = async(req, res) => {
         console.log(err);
     }
 }
+
 
